@@ -11,7 +11,7 @@
 - *Project Rating*: Users can rate submitted projects and view ratings and votes.
 - *Enhanced UI*: An attractive and modern user interface with a dark theme for eye comfort.
 
-## Installation
+## Installation 
 
 ### Prerequisites
 
