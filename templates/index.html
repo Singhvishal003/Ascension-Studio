@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Creators' Nexus</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='styles.css') }}"
+    />
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+      <a class="navbar-brand" href="#">Creators' Nexus</a>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ml-auto">
+          {% if current_user.is_authenticated %}
+          <li class="nav-item">
+            <a class="nav-link" href="{{ url_for('dashboard') }}">Dashboard</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{{ url_for('logout') }}">Logout</a>
+          </li>
+          {% else %}
+          <li class="nav-item">
+            <a class="nav-link" href="{{ url_for('login') }}">Login</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{{ url_for('register') }}">Register</a>
+          </li>
+          {% endif %}
+        </ul>
+      </div>
+    </nav>
+    <div class="container">
+      <h1 class="my-4">Submitted Projects</h1>
+      <div class="row">
+        {% for project in projects %}
+        <div class="col-md-4">
+          <div class="card mb-4 shadow-sm">
+            <div class="card-body">
+              <h5 class="card-title">{{ project.title }}</h5>
+              <p class="card-text">{{ project.description }}</p>
+              <a
+                href="{{ url_for('static', filename='uploads/' ~ project.file_path) }}"
+                class="btn btn-primary"
+                >View Project</a
+              >
+              <form
+                action="{{ url_for('rate', project_id=project.id) }}"
+                method="POST"
+              >
+                <div class="form-group mt-2">
+                  <label for="rating">Rate this project:</label>
+                  <input
+                    type="number"
+                    class="form-control"
+                    name="rating"
+                    min="1"
+                    max="5"
+                    required
+                  />
+                  <button
+                    type="submit"
+                    class="btn btn-success mt-2 vote-button"
+                  >
+                    Submit Rating
+                  </button>
+                </div>
+              </form>
+              <p class="card-text">
+                <small class="text-muted"
+                  >{{ project.rating }} stars, {{ project.votes }} votes</small
+                >
+              </p>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+    <script src="{{ url_for('static', filename='scripts.js') }}"></script>
+  </body>
+</html>

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dashboard</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+    />
+  </head>
+  <body>
+    <div class="container">
+      <h1 class="mt-5">Your Projects</h1>
+      <a href="{{ url_for('submit') }}" class="btn btn-success mb-3"
+        >Submit New Project</a
+      >
+      <ul class="list-group">
+        {% for project in projects %}
+        <li class="list-group-item">
+          <h5>{{ project.title }}</h5>
+          <p>{{ project.description }}</p>
+          <a
+            href="{{ url_for('static', filename='uploads/' ~ project.file_path) }}"
+            class="btn btn-primary"
+            >View Project</a
+          >
+          <p class="mt-2">
+            <small class="text-muted"
+              >{{ project.rating }} stars, {{ project.votes }} votes</small
+            >
+          </p>
+        </li>
+        {% endfor %}
+      </ul>
+    </div>
+    <script src="{{ url_for('static', filename='scripts.js') }}"></script>
+  </body>
+</html>
